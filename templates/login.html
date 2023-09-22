@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Login System</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+        <link
+            rel="stylesheet"
+            href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.4/css/bulma.min.css"
+            crossorigin="anonymous"
+            referrerpolicy="no-referrer"
+        />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+        <link rel="stylesheet" href="/static/app.css" />
+        <style>
+            body,
+            html {
+                height: 100%;
+                margin: 0;
+            }
+
+            .main-container {
+                height: 100%;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .login-logo {
+                font-size: 72px;
+                /* margin-bottom: 20px; */
+                display: flex;
+                align-items: center;
+                height: 70px;
+            }
+        </style>
+    </head>
+    <body>
+        <div class="main-container">
+            <div class="box" style="width: 80%">
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <div class="login-logo">
+                            <img
+                                src="https://uploads-ssl.webflow.com/61d6943d6b5924685ac825ca/621492a9dbffbfe1b626e537_Group%2089.svg"
+                                alt=""
+                            />
+                        </div>
+                    </div>
+                </div>
+                <div class="level">
+                    <div class="level-item has-text-centered">
+                        <p class="has-text-centered">
+                            Some explanation about the login system.
+                        </p>
+                    </div>
+                </div>
+                <form id="loginForm">
+                    <div class="field">
+                        <div class="control">
+                            <input
+                                type="text"
+                                class="input"
+                                id="studentID"
+                                name="student_id"
+                                placeholder="Enter Student ID"
+                            />
+                        </div>
+                    </div>
+                    <div class="field">
+                        <div class="control">
+                            <input type="email" class="input" id="email" name="email" placeholder="Enter Email" />
+                        </div>
+                    </div>
+
+                    <div class="field action-button-group">
+                        <div class="control">
+                            <button type="submit" class="button is-primary is-fullwidth">Sign In</button>
+                        </div>
+                    </div>
+                    <div class="level">
+                        <div class="level-item has-text-centered">
+                            <p class="is-size-7 has-text-centered">
+                                Some extra explanation about the login system.
+                            </p>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <script>
+            // Assuming you have a function to make the POST request to /login/
+            async function loginUser() {
+                const studentID = document.getElementById("studentID").value;
+                const email = document.getElementById("email").value;
+
+                const response = await fetch("/v1/auth/login", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded",
+                    },
+                    body: `student_id=${studentID}&email=${email}`,
+                });
+
+                if (response.status === 200) {
+                    const data = await response.json();
+                    window.location.href = data.redirect_url;
+                } else {
+                    alert("Unauthorized");
+                }
+            }
+
+            document.getElementById("loginForm").addEventListener("submit", function (event) {
+                event.preventDefault(); // Prevent form from submitting, as we're handling it via JS
+                loginUser();
+            });
+        </script>
+    </body>
+</html>
