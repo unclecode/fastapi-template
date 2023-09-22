@@ -1,1 +1,1 @@
-# slotomix
+# Cubit App
